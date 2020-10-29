@@ -1,0 +1,13 @@
+deployment:
+  # issue with permission
+  # https://github.com/traefik/traefik-helm-chart/blob/401c8cdf690cbbc765a935c7279566a13b79a082/traefik/values.yaml#L22
+  initContainers:
+   - name: volume-permissions
+     image: busybox:1.31.1
+     command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+     volumeMounts:
+       - name: data
+         mountPath: /data
+
+persistence:
+  enabled: true

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zone-printer-deployment
+spec:
+  selector:
+    matchLabels:
+      app: zone-printer
+  template:
+    metadata:
+      labels:
+        app: zone-printer
+    spec:
+      containers:
+      - name: zone-printer
+        image: gcr.io/medicbot-d925b/zone-printer
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zone-printer-service
+spec:
+  type: ClusterIP
+  selector:
+    app: zone-printer
+  ports:
+  - port: 80
+    targetPort: 8080
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,72 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: zone-printer-service
+          port: 80
+    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/whoami`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+    - match: Host(`api.yongweilun.me`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: redirect-https
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-secure
+  namespace: default
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: zone-printer-service
+          port: 80
+    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/whoami`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+    - match: Host(`traefik.yongweilun.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+    - match: Host(`api.yongweilun.me`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+  tls:
+    certResolver: myresolver
+    domains:
+      - main: "*.yongweilun.me"
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+spec:
+  redirectScheme:
+    scheme: https

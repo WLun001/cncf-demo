@@ -1,0 +1,13 @@
+.idea/
+/credentials
+.env.yaml
+.DS_Store
+*.txt
+/vendor
+/output
+terraform/terraform-sa.json
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform/
+tmp/
