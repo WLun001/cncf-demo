@@ -6,6 +6,7 @@
 /vendor
 /output
 terraform/terraform-sa.json
+terraform/google-dns-sa.json
 *.tfstate
 *.tfstate.backup
 *.tfvars
