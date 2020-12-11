@@ -1,5 +1,5 @@
 FROM golang as builder
-WORKDIR /cloud-run-example
+WORKDIR /hello-world
 COPY go.mod .
 # COPY go.sum .
 # RUN go mod download
