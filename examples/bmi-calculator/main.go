@@ -11,8 +11,8 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		h := c.Query("height", "")
-		w := c.Query("weight", "")
+		h := c.Query("h", "")
+		w := c.Query("w", "")
 
 		if h == "" || w == "" {
 			return c.SendString("missing weight or height")
@@ -38,7 +38,6 @@ func main() {
 //  BMI = kg/m2
 func calculator(height, weight int) float64 {
 	heightInMetre := float64(height) / 100.0
-	log.Println(heightInMetre)
 	return float64(weight) / (heightInMetre * heightInMetre)
 }
 
