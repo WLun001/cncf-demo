@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+const version = "1.0"
+
 func main() {
 	app := fiber.New()
 
@@ -29,7 +31,7 @@ func main() {
 		}
 
 		bmi := calculator(height, weight)
-		return c.SendString(fmt.Sprintf("BMI: %.2f, status: %s", bmi, getBMIStatus(bmi)))
+		return c.SendString(fmt.Sprintf("BMI: %.2f, status: %s, version: %s", bmi, getBMIStatus(bmi), version))
 	})
 
 	log.Println(app.Listen(":3000"))
