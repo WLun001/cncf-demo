@@ -13,25 +13,41 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("calculator available at /calculator")
+	})
+
+	app.Get("/calculator", func(c *fiber.Ctx) error {
 		h := c.Query("h", "")
 		w := c.Query("w", "")
+		format := c.Query("format", "string")
 
 		if h == "" || w == "" {
-			return c.SendString("missing weight or height")
+			return c.SendString("missing weight(w) or height(h)")
 		}
 
 		height, hErr := strconv.Atoi(h)
 		if hErr != nil {
-			return c.SendString("height must be integer value in CM")
+			return c.SendString("height(h) must be integer value in CM")
 		}
 
 		weight, wErr := strconv.Atoi(w)
 		if wErr != nil {
-			return c.SendString("weight must be integer value in KG")
+			return c.SendString("weight(w) must be integer value in KG")
 		}
 
 		bmi := calculator(height, weight)
-		return c.SendString(fmt.Sprintf("BMI: %.2f, status: %s, version: %s", bmi, getBMIStatus(bmi), version))
+
+		if format == "json" {
+			return c.JSON(fiber.Map{
+				"bmi":     fmt.Sprintf("%.2f", bmi),
+				"status":  getBMIStatus(bmi),
+				"version": version,
+			})
+		} else {
+			return c.SendString(
+				fmt.Sprintf("BMI: %.2f, status: %s, version: %s", bmi, getBMIStatus(bmi), version),
+			)
+		}
 	})
 
 	log.Println(app.Listen(":3000"))
