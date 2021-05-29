@@ -9,3 +9,4 @@ This repo:
 
 Other repo:
 - [Scaling real-time servers with NATS (Part 1)](https://blog.yongweilun.me/scaling-real-time-servers-with-nats-part-1), [repo](https://github.com/WLun001/scaling-w)
+- [Scaling real-time servers with NATS (Part 2)](https://blog.yongweilun.me/scaling-real-time-servers-with-nats-part-2), [repo](https://github.com/WLun001/scaling-w)
