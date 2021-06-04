@@ -29,9 +29,9 @@ metadata:
   name: wildcard-cert
   namespace: default
 spec:
-  secretName: wildcard-yongweilun-me-tls
+  secretName: wildcard-example-com-tls
   issuerRef:
     kind: ClusterIssuer
     name: cert-wildcard-issuer
   dnsNames:
-    - "*.yongweilun.me"
+    - "*.example.com"

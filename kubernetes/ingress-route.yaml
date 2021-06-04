@@ -8,17 +8,17 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/`)
+    - match: Host(`traefik.example.com`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: zone-printer-service
+        - name: hello-world-service
           port: 80
-    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/whoami`)
+    - match: Host(`traefik.example.com`) && PathPrefix(`/whoami`)
       kind: Rule
       services:
         - name: whoami
           port: 80
-    - match: Host(`api.yongweilun.me`) && PathPrefix(`/`)
+    - match: Host(`api.example.com`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: whoami
@@ -37,24 +37,24 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/`)
+    - match: Host(`traefik.example.com`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: zone-printer-service
+        - name: hello-world-service
           port: 80
-    - match: Host(`traefik.yongweilun.me`) && PathPrefix(`/whoami`)
+    - match: Host(`traefik.example.com`) && PathPrefix(`/whoami`)
       kind: Rule
       services:
         - name: whoami
           port: 80
-    - match: Host(`traefik.yongweilun.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+    - match: Host(`traefik.example.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       kind: Rule
       services:
         - name: api@internal
           kind: TraefikService
       middlewares:
         - name: basic-auth
-    - match: Host(`api.yongweilun.me`) && PathPrefix(`/`)
+    - match: Host(`api.example.com`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: whoami
@@ -62,7 +62,7 @@ spec:
   tls:
     certResolver: myresolver
     domains:
-      - main: "*.yongweilun.me"
+      - main: "*.example.com"
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
