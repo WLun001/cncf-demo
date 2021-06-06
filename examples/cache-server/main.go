@@ -7,30 +7,24 @@ import (
 	"log"
 	"time"
 
-	b "github.com/dgraph-io/badger/v3"
+	"github.com/dgraph-io/badger/v3"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/storage/badger"
 )
 
 var (
-	store                   fiber.Storage
+	store                   CacheStorage
 	bypassCacheHeader       = "Bypass-Cache"
 	serverCacheStatusHeader = "S-Cache"
 )
 
-type CacheItem struct {
-	Body      []byte `json:"body"`
-	Ctype     []byte `json:"ctype"`
-	Cencoding []byte `json:"cencoding"`
-	Status    int    `json:"status"`
-}
-
 func main() {
-	// in memory mode
-	// https://dgraph.io/docs/badger/get-started/#in-memory-mode-diskless-mode
-	store = badger.New(badger.Config{
-		BadgerOptions: b.DefaultOptions("").WithInMemory(true),
-	})
+	store = NewCacheStorage()
+	defer func(db *badger.DB) {
+		err := db.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(store.db)
 
 	// start fiber
 	app := fiber.New()
@@ -62,7 +56,7 @@ func main() {
 		return c.JSON(fiber.Map{"result": "ok"})
 	})
 
-	app.Get("/server-and-cdn-cache", allowCache(5), func(c *fiber.Ctx) error {
+	app.Get("/server-and-cdn-cache", allowServerCache(30), allowCache(5), func(c *fiber.Ctx) error {
 		// simulate database call
 		// for 200ms
 		time.Sleep(200 * time.Millisecond)
