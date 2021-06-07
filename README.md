@@ -8,6 +8,7 @@ This repo:
 - [Cloud Native Virtual Workshop](https://nuwa.icu/workshop-cn21)
 - [Improve API performance with CDN](https://blog.yongweilun.me/improve-api-performance-with-cdn)
 - [Improve API performance with server-side caching](https://blog.yongweilun.me/improve-api-performance-with-server-side-caching)
+- [GKE Ingress is slower than you think](https://blog.yongweilun.me/gke-ingress-is-slower-than-you-think)
 
 Other repo:
 - [Scaling real-time servers with NATS (Part 1)](https://blog.yongweilun.me/scaling-real-time-servers-with-nats-part-1), [repo](https://github.com/WLun001/scaling-w)
