@@ -28,7 +28,7 @@ metadata:
   annotations:
     cloud.google.com/backend-config: '{"ports": {"3000":"basic-backendconfig"}}'
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: cache-server
   ports:
