@@ -63,6 +63,29 @@ func main() {
 		return c.JSON(fiber.Map{"result": "ok"})
 	})
 
+	dbRoutes := app.Group("/db")
+	dbRoutes.Get("/all", func(c *fiber.Ctx) error {
+		_ = store.db.View(func(txn *badger.Txn) error {
+			opts := badger.DefaultIteratorOptions
+			it := txn.NewIterator(opts)
+			defer it.Close()
+			fmt.Printf("----Query at %s------\n", time.Now().Format("2-Jan-06 3:04:05 pm"))
+			for it.Rewind(); it.Valid(); it.Next() {
+				item := it.Item()
+				k := item.Key()
+				err := item.Value(func(v []byte) error {
+					fmt.Printf("key=%s, value=%s, exp=%d, isExp=%t\n", k, v, item.ExpiresAt(), item.IsDeletedOrExpired())
+					return nil
+				})
+				if err != nil {
+					return err
+				}
+			}
+			fmt.Println("----End Query---")
+			return nil
+		})
+		return c.JSON(fiber.Map{"result": "view logs for result"})
+	})
 	log.Fatal(app.Listen(":3000"))
 }
 
