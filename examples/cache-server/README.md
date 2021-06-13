@@ -11,3 +11,4 @@ Available APIs
 - `/cache` has header Cache-Control: public, max-age=5
 - `/server-cache` embeddable memory db cache, TTL 5 seconds
 - `/server-and-cdn-cache`embeddable memory db cache, TTL to 30 seconds and has header Cache-Control: public, max-age=5
+- `/db/all` query db records
