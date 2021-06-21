@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2/utils"
 	"log"
+	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/dgraph-io/badger/v3"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html"
 )
 
 var (
@@ -26,8 +29,13 @@ func main() {
 		}
 	}(store.db)
 
+	// Create a new html engine
+	engine := html.New("./views", ".html")
+
 	// start fiber
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 
 	// default to no store
 	app.Use(func(c *fiber.Ctx) error {
@@ -63,6 +71,22 @@ func main() {
 		return c.JSON(fiber.Map{"result": "ok"})
 	})
 
+	app.Get("/error/:statusCode", func(c *fiber.Ctx) error {
+		code, _ := strconv.Atoi(c.Params("statusCode"))
+		return c.Render("error", fiber.Map{
+			"errorCode": code,
+			"errorText": http.StatusText(code),
+		})
+	})
+
+	app.Get("/server-1/example", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"server": 1, "status": "ok"})
+	})
+
+	app.Get("/server-2/example", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"server": 2, "status": "ok"})
+	})
+
 	dbRoutes := app.Group("/db")
 	dbRoutes.Get("/all", func(c *fiber.Ctx) error {
 		_ = store.db.View(func(txn *badger.Txn) error {
@@ -86,6 +110,7 @@ func main() {
 		})
 		return c.JSON(fiber.Map{"result": "view logs for result"})
 	})
+
 	log.Fatal(app.Listen(":3000"))
 }
 
