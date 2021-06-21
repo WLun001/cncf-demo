@@ -13,6 +13,7 @@ Available APIs
 - `/cache` has header Cache-Control: public, max-age=5
 - `/server-cache` embeddable memory db cache, TTL 5 seconds
 - `/server-and-cdn-cache`embeddable memory db cache, TTL to 30 seconds and has header Cache-Control: public, max-age=5
+- `timeout?t=` delay on response based on given param
 - `error/:statusCode` example error page based on status code
 - `server-1/example` example route
 - `server-2/example`example route

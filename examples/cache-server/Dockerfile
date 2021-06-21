@@ -11,5 +11,6 @@ RUN addgroup -S example-group && adduser -S -D example -G example-group
 USER example
 WORKDIR /home/example
 COPY --from=builder /bin/cache-server ./
+COPY --from=builder /cache-server/views ./views
 EXPOSE 3000
 ENTRYPOINT ["./cache-server"]

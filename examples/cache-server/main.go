@@ -71,6 +71,13 @@ func main() {
 		return c.JSON(fiber.Map{"result": "ok"})
 	})
 
+	app.Get("/timeout", func(c *fiber.Ctx) error {
+		timeout, _ := strconv.Atoi(c.Query("t", "100"))
+		dur := time.Duration(timeout) * time.Millisecond
+		time.Sleep(dur)
+		return c.JSON(fiber.Map{"waited": dur, "hint": "use query t to indicate timeout in ms"})
+	})
+
 	app.Get("/error/:statusCode", func(c *fiber.Ctx) error {
 		code, _ := strconv.Atoi(c.Params("statusCode"))
 		return c.Render("error", fiber.Map{
