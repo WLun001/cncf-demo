@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    # required here because we have two ingress controller installed
+    kubernetes.io/ingress.class: gce
+spec:
+  defaultBackend:
+    service:
+      name: traefik
+      port:
+        number: 80
