@@ -16,7 +16,9 @@ var ee *echo.Echo
 func TestMain(m *testing.M) {
 	// Write code here to run before tests
 
-	_ = os.Setenv("MONGO_URI", "mongodb://admin:apple123@localhost:27017")
+	if os.Getenv("MONGO_URI") == "" {
+		_ = os.Setenv("MONGO_URI", "mongodb://admin:apple123@localhost:27017")
+	}
 	handler, e, err := run()
 	if err != nil {
 		panic(err)

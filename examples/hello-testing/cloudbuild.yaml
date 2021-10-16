@@ -1,0 +1,31 @@
+steps:
+  - name: 'docker/compose'
+    id: 'compose-up'
+    args: [ '-f', 'docker-compose.ci.yml', 'up', '-d' ]
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'wait-for-mongo'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        ./wait-for-it.sh -t 0 mongodb:27017 -- echo 'up'
+
+  - name: 'golang'
+    id: 'go-test'
+    entrypoint: 'bash'
+    waitFor:
+      - 'wait-for-mongo'
+    env:
+      - 'MONGO_URI=mongodb://admin:apple123@mongodb:27017'
+    args:
+      - -c
+      - |
+        go test -v .
+
+  - name: 'docker/compose'
+    id: 'compose-down'
+    args: [ '-f', 'docker-compose.ci.yml', 'down' ]
+
+#options:
+#  machineType: 'E2_HIGHCPU_8'

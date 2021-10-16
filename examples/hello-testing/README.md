@@ -2,17 +2,17 @@ Example of integration testing that rely on database with docker compose
 
 ## Run app
 
-```angular2html
+```bash
 MONGO_URI=mongodb://admin:apple123@localhost:27017 go run .
 ```
 
 ## Run test locally
 
-```shell
+```bash
 docker-compose up
 ```
 
-```
+```bash
 # open another terminal
 go test -v .
 
@@ -26,7 +26,13 @@ PASS
 ok      hello-testing   0.022s
 ```
 
-```
+```bash
 # to shutdown and delete volume
 docker-compose down -v
+```
+
+## Run test on Cloud Build
+
+```bash
+gcloud builds submit .
 ```
