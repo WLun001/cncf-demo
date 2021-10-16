@@ -3,7 +3,6 @@
 .env.yaml
 .DS_Store
 *.txt
-/vendor
 /output
 terraform/terraform-sa.json
 terraform/google-dns-sa.json
@@ -12,3 +11,4 @@ terraform/google-dns-sa.json
 *.tfvars
 .terraform/
 tmp/
+vendor/
