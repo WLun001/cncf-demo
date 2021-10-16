@@ -1,0 +1,48 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/`)
+      services:
+        - name: hello-world-service
+          port: 80
+    - kind: Rule
+      match: PathPrefix(`/whoami`)
+      services:
+        - name: whoami
+          port: 80
+    - kind: Rule
+      match: PathPrefix(`/cache`)
+      middlewares:
+        - name: strip-cache-prefix
+        - name: cache-server
+        - name: test-errorpage
+      services:
+        - name: cache-server-service
+          port: 3000
+          serversTransport: mytransport
+    - kind: Rule
+      match: PathPrefix(`/server1`)
+      middlewares:
+        - name: server1-replacepath
+      services:
+        - name: cache-server-service
+          port: 3000
+    - kind: Rule
+      match: PathPrefix(`/server2`)
+      middlewares:
+        - name: server2-replacepath
+      services:
+        - name: cache-server-service
+          port: 3000
+    - kind: Rule
+      match: PathPrefix(`/api`) || PathPrefix(`/dashboard`)
+      services:
+        - kind: TraefikService
+          name: api@internal

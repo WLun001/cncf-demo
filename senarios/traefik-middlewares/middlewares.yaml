@@ -1,0 +1,55 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cache-server
+  namespace: default
+spec:
+  headers:
+    customResponseHeaders:
+      X-Proxy-Server: cache-server
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: server1-replacepath
+  namespace: default
+spec:
+  replacePath:
+    path: /server-1/example
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: server2-replacepath
+  namespace: default
+spec:
+  replacePath:
+    path: /server-2/example
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-cache-prefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /cache
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-errorpage
+  namespace: default
+spec:
+  errors:
+    query: 'error/{status}'
+    service:
+      name: cache-server-service
+      port: 3000
+    status:
+      - 500-599
+
+
+
+

@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: mytransport
+  namespace: default
+spec:
+  forwardingTimeouts:
+    responseHeaderTimeout: 3s
+  insecureSkipVerify: true
