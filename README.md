@@ -10,6 +10,7 @@ This repo:
 - [Improve API performance with server-side caching](https://blog.yongweilun.me/improve-api-performance-with-server-side-caching)
 - [GKE Ingress is slower than you think](https://blog.yongweilun.me/gke-ingress-is-slower-than-you-think)
 - [Configure Cloud Armor with Traefik Proxy](https://blog.yongweilun.me/configure-cloud-armor-with-traefik-proxy)
+- [Running tests with Docker Compose on Cloud Build](https://blog.yongweilun.me/running-tests-with-docker-compose-on-cloud-build)
 
 Other repo:
 - [Scaling real-time servers with NATS (Part 1)](https://blog.yongweilun.me/scaling-real-time-servers-with-nats-part-1), [repo](https://github.com/WLun001/scaling-w)
