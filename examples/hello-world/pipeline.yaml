@@ -1,0 +1,68 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: bash
+spec:
+  params:
+    - name: args
+      type: string
+  workspaces:
+    - name: source
+      description: The folder where we write the message to
+    - name: dockerconfig
+  steps:
+    - name: bash
+      image: ubuntu
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - "$(params.args)"
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: kaniko-pipeline
+spec:
+  workspaces:
+    - name: git-source
+    - name: dockerconfig
+  tasks:
+    - name: fetch-from-git
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: https://github.com/WLun001/cncf-demo
+      workspaces:
+        - name: output
+          workspace: git-source
+    - name: ls-dir
+      runAfter: [ fetch-from-git ]
+      taskRef:
+        name: bash
+      params:
+        - name: args
+          value: ls -la
+      workspaces:
+        - name: source
+          workspace: git-source
+        - name: dockerconfig
+          workspace: dockerconfig
+    - name: build-image
+      runAfter: [ fetch-from-git ]
+      taskRef:
+        name: kaniko
+      params:
+        - name: IMAGE
+          value: ghcr.io/wlun001/hello-world
+        - name: CONTEXT
+          value: examples/hello-world
+        - name: DOCKERFILE
+          value: $(workspaces.source.path)/examples/hello-world/Dockerfile
+      workspaces:
+        - name: source
+          workspace: git-source
+        - name: dockerconfig
+          workspace: dockerconfig

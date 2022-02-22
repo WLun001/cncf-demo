@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: kaniko-pipeline-run-
+spec:
+  pipelineRef:
+    name: kaniko-pipeline
+  workspaces:
+    - name: git-source
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce # access mode may affect how you can use this volume in parallel tasks
+          resources:
+            requests:
+              storage: 100m
+    - name: dockerconfig
+      secret:
+        secretName: kaniko-secret
