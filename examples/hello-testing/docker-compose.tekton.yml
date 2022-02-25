@@ -1,7 +1,9 @@
 version: '3'
 services:
   mongodb:
-    image: mongo:5
+    build:
+      context: .
+      dockerfile: mongo.Dockerfile
     ports:
       - '27017:27017'
     environment:
