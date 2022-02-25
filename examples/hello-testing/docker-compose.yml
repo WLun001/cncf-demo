@@ -8,5 +8,5 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=apple123
       - MONGO_INITDB_DATABASE=store
-    volumes:
-      - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js
+#    volumes:
+#      - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js
