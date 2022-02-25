@@ -14,7 +14,7 @@ docker-compose up
 
 ```bash
 # open another terminal
-go test -v .
+MONGO_URI=mongodb://admin:apple123@localhost:27017 go test -v .
 
 2021/10/16 16:15:48 db client connected
 2021/10/16 16:15:48 db client ping
@@ -35,4 +35,19 @@ docker-compose down -v
 
 ```bash
 gcloud builds submit .
+```
+
+## Run test on tekton
+
+Install task
+
+```
+tkn hub install task git-clone
+```
+
+Create Pipeline and PipelineRun
+
+```
+kubectl apply -f pipeline.yaml
+kubectl create -f pipeline-run.yaml
 ```
