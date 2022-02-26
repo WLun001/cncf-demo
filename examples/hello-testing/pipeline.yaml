@@ -84,16 +84,19 @@ metadata:
 spec:
   workspaces:
     - name: git-source
+    - name: ssh-creds
   tasks:
     - name: fetch-from-git
       taskRef:
         name: git-clone
       params:
         - name: url
-          value: https://github.com/WLun001/cncf-demo
+          value: git@github.com:WLun001/cncf-demo.git
       workspaces:
         - name: output
           workspace: git-source
+        - name: ssh-directory
+          workspace: ssh-creds
     - name: run-test
       runAfter: [ fetch-from-git ]
       taskRef:

@@ -45,6 +45,17 @@ Install task
 tkn hub install task git-clone
 ```
 
+Create secret,
+and [add new ssh to github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+```
+# create git ssh
+# check command in secret.yaml and replace it
+# add to github ssh
+
+kubectl apply -f secret.yaml
+```
+
 Create Pipeline and PipelineRun
 
 ```

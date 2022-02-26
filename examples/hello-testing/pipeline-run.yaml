@@ -14,3 +14,6 @@ spec:
           resources:
             requests:
               storage: 100m
+    - name: ssh-creds
+      secret:
+        secretName: ssh-credentials
