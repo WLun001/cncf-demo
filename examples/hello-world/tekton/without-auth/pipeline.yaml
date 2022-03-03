@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: kaniko-pipeline
+spec:
+  workspaces:
+    - name: git-source
+  tasks:
+    - name: fetch-from-git
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: https://github.com/WLun001/cncf-demo
+      workspaces:
+        - name: output
+          workspace: git-source
+    - name: ls-dir
+      runAfter: [ fetch-from-git ]
+      taskRef:
+        name: bash
+      params:
+        - name: args
+          value: ls -la
+      workspaces:
+        - name: source
+          workspace: git-source
+    - name: build-image
+      runAfter: [ fetch-from-git ]
+      taskRef:
+        name: kaniko
+      params:
+        - name: IMAGE
+          value: ghcr.io/wlun001/hello-world
+        - name: CONTEXT
+          value: examples/hello-world
+        - name: DOCKERFILE
+          value: $(workspaces.source.path)/examples/hello-world/Dockerfile
+        - name: EXTRA_ARGS
+          value: --no-push
+      workspaces:
+        - name: source
+          workspace: git-source

@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: bash
+spec:
+  params:
+    - name: args
+      type: string
+  workspaces:
+    - name: source
+      description: The folder where we write the message to
+  steps:
+    - name: bash
+      image: ubuntu
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - "$(params.args)"

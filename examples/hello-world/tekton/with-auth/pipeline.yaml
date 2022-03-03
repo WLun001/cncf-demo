@@ -1,32 +1,11 @@
 apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: bash
-spec:
-  params:
-    - name: args
-      type: string
-  workspaces:
-    - name: source
-      description: The folder where we write the message to
-    - name: dockerconfig
-  steps:
-    - name: bash
-      image: ubuntu
-      command:
-        - /bin/bash
-      args:
-        - -c
-        - "$(params.args)"
----
-
-apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: kaniko-pipeline
 spec:
   workspaces:
     - name: git-source
+    - name: ssh-creds
     - name: dockerconfig
   tasks:
     - name: fetch-from-git
@@ -38,6 +17,8 @@ spec:
       workspaces:
         - name: output
           workspace: git-source
+        - name: ssh-directory
+          workspace: ssh-creds
     - name: ls-dir
       runAfter: [ fetch-from-git ]
       taskRef:
@@ -48,8 +29,6 @@ spec:
       workspaces:
         - name: source
           workspace: git-source
-        - name: dockerconfig
-          workspace: dockerconfig
     - name: build-image
       runAfter: [ fetch-from-git ]
       taskRef:

@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: go-test-pipeline-run-
+  generateName: kaniko-pipeline-run-
 spec:
   pipelineRef:
-    name: go-test-pipeline
+    name: kaniko-pipeline
   workspaces:
     - name: git-source
       volumeClaimTemplate:
@@ -14,3 +14,9 @@ spec:
           resources:
             requests:
               storage: 100m
+    - name: ssh-creds
+      secret:
+        secretName: ssh-credentials
+    - name: dockerconfig
+      secret:
+        secretName: kaniko-secret

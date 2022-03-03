@@ -84,7 +84,6 @@ metadata:
 spec:
   workspaces:
     - name: git-source
-    - name: ssh-creds
   tasks:
     - name: fetch-from-git
       taskRef:
@@ -95,8 +94,6 @@ spec:
       workspaces:
         - name: output
           workspace: git-source
-        - name: ssh-directory
-          workspace: ssh-creds
     - name: run-test
       runAfter: [ fetch-from-git ]
       taskRef:
