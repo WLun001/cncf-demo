@@ -90,7 +90,7 @@ spec:
         name: git-clone
       params:
         - name: url
-          value: git@github.com:WLun001/cncf-demo.git
+          value: https://github.com/WLun001/cncf-demo
       workspaces:
         - name: output
           workspace: git-source
