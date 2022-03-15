@@ -19,16 +19,16 @@ spec:
       workspaces:
         - name: output
           workspace: git-source
-    - name: ls-dir
-      runAfter: [ fetch-from-git ]
-      taskRef:
-        name: bash
-      params:
-        - name: args
-          value: ls -la
-      workspaces:
-        - name: source
-          workspace: git-source
+    #    - name: ls-dir
+    #      runAfter: [ fetch-from-git ]
+    #      taskRef:
+    #        name: bash
+    #      params:
+    #        - name: args
+    #          value: ls -la
+    #      workspaces:
+    #        - name: source
+    #          workspace: git-source
     - name: build-image
       runAfter: [ fetch-from-git ]
       taskRef:

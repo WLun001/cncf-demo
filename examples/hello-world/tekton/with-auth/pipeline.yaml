@@ -23,16 +23,16 @@ spec:
           workspace: git-source
         - name: ssh-directory
           workspace: ssh-creds
-    - name: ls-dir
-      runAfter: [ fetch-from-git ]
-      taskRef:
-        name: bash
-      params:
-        - name: args
-          value: ls -la
-      workspaces:
-        - name: source
-          workspace: git-source
+    #    - name: ls-dir
+    #      runAfter: [ fetch-from-git ]
+    #      taskRef:
+    #        name: bash
+    #      params:
+    #        - name: args
+    #          value: ls -la
+    #      workspaces:
+    #        - name: source
+    #          workspace: git-source
     - name: build-image
       runAfter: [ fetch-from-git ]
       taskRef:
