@@ -2,11 +2,8 @@
 
 Create registry secret
 
-```shell
-# edit the config.json
-# XXXX get from echo -n USER:ACCESS_TOKEN | base64
-kubectl create secret generic kaniko-secret --from-file=config.json
-```
+> Update values on secret.yaml
+
 
 Create secret,
 and [add new ssh to github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
