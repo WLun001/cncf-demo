@@ -11,6 +11,7 @@ This repo:
 - [GKE Ingress is slower than you think](https://blog.yongweilun.me/gke-ingress-is-slower-than-you-think)
 - [Configure Cloud Armor with Traefik Proxy](https://blog.yongweilun.me/configure-cloud-armor-with-traefik-proxy)
 - [Running tests with Docker Compose on Cloud Build](https://blog.yongweilun.me/running-tests-with-docker-compose-on-cloud-build)
+- [Tekton CI/CD Part 1: Building image with Pipelines](https://blog.yongweilun.me/tekton-cicd-part-1-building-image-with-pipelines)
 
 Other repo:
 - [Scaling real-time servers with NATS (Part 1)](https://blog.yongweilun.me/scaling-real-time-servers-with-nats-part-1), [repo](https://github.com/WLun001/scaling-w)
