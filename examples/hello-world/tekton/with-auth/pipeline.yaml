@@ -1,12 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: kaniko-pipeline
+  name: kaniko-pipeline-auth
 spec:
   workspaces:
     - name: git-source
     - name: ssh-creds
     - name: dockerconfig
+  params:
+    - name: git_revision
   tasks:
     - name: fetch-from-git
       taskRef:
@@ -14,6 +16,8 @@ spec:
       params:
         - name: url
           value: git@github.com:WLun001/cncf-demo.git
+        - name: revision
+          value: $(params.git_revision)
       workspaces:
         - name: output
           workspace: git-source

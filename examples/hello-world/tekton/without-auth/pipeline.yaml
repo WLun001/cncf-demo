@@ -5,6 +5,8 @@ metadata:
 spec:
   workspaces:
     - name: git-source
+  params:
+    - name: git_revision
   tasks:
     - name: fetch-from-git
       taskRef:
@@ -12,6 +14,8 @@ spec:
       params:
         - name: url
           value: https://github.com/WLun001/cncf-demo
+        - name: revision
+          value: $(params.git_revision)
       workspaces:
         - name: output
           workspace: git-source
@@ -37,7 +41,7 @@ spec:
         - name: DOCKERFILE
           value: $(workspaces.source.path)/examples/hello-world/Dockerfile
         - name: EXTRA_ARGS
-          value: --no-push
+          value: [ '--no-push' ]
       workspaces:
         - name: source
           workspace: git-source

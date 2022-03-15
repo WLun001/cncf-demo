@@ -4,7 +4,10 @@ metadata:
   generateName: kaniko-pipeline-run-
 spec:
   pipelineRef:
-    name: kaniko-pipeline
+    name: kaniko-pipeline-auth
+  params:
+    - name: git_revision
+      value: HEAD
   workspaces:
     - name: git-source
       volumeClaimTemplate:

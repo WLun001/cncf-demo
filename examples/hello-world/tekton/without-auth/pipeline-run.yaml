@@ -5,6 +5,9 @@ metadata:
 spec:
   pipelineRef:
     name: kaniko-pipeline
+  params:
+    - name: git_revision
+      value: HEAD
   workspaces:
     - name: git-source
       volumeClaimTemplate:
