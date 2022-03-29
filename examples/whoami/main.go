@@ -15,13 +15,11 @@ import (
 )
 
 var (
-	port    string
-	name    string
-	verbose bool
+	port string
+	name string
 )
 
 func init() {
-	flag.BoolVar(&verbose, "verbose", false, "Enable verbose logging")
 	flag.StringVar(&port, "port", getEnv("WHOAMI_PORT_NUMBER", "3000"), "give me a port number")
 	flag.StringVar(&name, "name", os.Getenv("WHOAMI_NAME"), "give me a name")
 }
@@ -30,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	mux := http.NewServeMux()
-	mux.Handle("/", handle(whoamiHandler, verbose))
+	mux.Handle("/", handle(whoamiHandler, true))
 	log.Printf("Starting up on port %s", port)
 
 	log.Fatal(http.ListenAndServe(":"+port, mux))
@@ -85,7 +83,7 @@ func whoamiHandler(w http.ResponseWriter, req *http.Request) {
 
 	_, _ = fmt.Fprintln(w, "RemoteAddr:", req.RemoteAddr)
 
-	ipAddr := "8.8.8.8"
+	ipAddr := getIP(req)
 	ipapiClient := http.Client{}
 	ipapiReq, err := http.NewRequest("GET", fmt.Sprintf("https://ipapi.co/%s/json", ipAddr), nil)
 	ipapiReq.Header.Set("User-Agent", "ipapi.co/#go-v1.5")
