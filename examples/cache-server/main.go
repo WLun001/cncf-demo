@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2/utils"
 	"log"
 	"net/http"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -75,6 +76,28 @@ func main() {
 		timeout, _ := strconv.Atoi(c.Query("t", "100"))
 		dur := time.Duration(timeout) * time.Millisecond
 		time.Sleep(dur)
+		return c.JSON(fiber.Map{"waited": dur, "hint": "use query t to indicate timeout in ms"})
+	})
+
+	app.Get("/simulate-cpu", func(c *fiber.Ctx) error {
+		timeout, _ := strconv.Atoi(c.Query("t", "100"))
+		dur := time.Duration(timeout) * time.Millisecond
+		done := make(chan int)
+
+		for i := 0; i < runtime.NumCPU(); i++ {
+			go func() {
+				for {
+					select {
+					case <-done:
+						return
+					default:
+					}
+				}
+			}()
+		}
+
+		time.Sleep(dur)
+		close(done)
 		return c.JSON(fiber.Map{"waited": dur, "hint": "use query t to indicate timeout in ms"})
 	})
 
