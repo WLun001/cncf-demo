@@ -53,6 +53,6 @@ func GetCertificate(*tls.ClientHelloInfo) (*tls.Certificate, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not parsed TLS cert: %s", err)
 	}
-	log.Printf("Loaded certificate: NotBefore: %s, NotAfter: %s", parsedCert.NotBefore, parsedCert.NotAfter)
+	log.Printf("Loaded certificate (%s): NotBefore: %s, NotAfter: %s", parsedCert.Version, parsedCert.NotBefore, parsedCert.NotAfter)
 	return &cert, nil
 }
