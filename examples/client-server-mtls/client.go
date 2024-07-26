@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -34,21 +35,33 @@ func main() {
 	transport := &http.Transport{TLSClientConfig: config}
 	client := &http.Client{Transport: transport}
 
+	if utils.EnvDefault("LOOP", "false") == "true" {
+		for {
+			sendRequest(client)
+			time.Sleep(60 * time.Second)
+		}
+	} else {
+		sendRequest(client)
+	}
+}
+
+func sendRequest(client *http.Client) {
 	resp, err := client.Get(utils.EnvDefault("SERVER_URL", "https://localhost:8443"))
 	if err != nil {
-		log.Fatal(err)
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(resp.Body)
+		log.Println(err)
+	} else {
+		defer func(Body io.ReadCloser) {
+			err := Body.Close()
+			if err != nil {
+				log.Println(err)
+			}
+		}(resp.Body)
 
-	log.Printf("Sending request to %s\n", resp.Request.Host)
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
+		log.Printf("Sending request to %s\n", resp.Request.Host)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err)
+		}
+		fmt.Printf("Response: %s", body)
 	}
-	fmt.Println(string(body))
 }
