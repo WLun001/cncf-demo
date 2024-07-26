@@ -1,4 +1,4 @@
-FROM golang as builder
+FROM golang AS builder
 WORKDIR /whoami
 COPY go.mod .
 # COPY go.sum .

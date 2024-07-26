@@ -1,4 +1,4 @@
-FROM golang as builder
+FROM golang AS builder
 WORKDIR /client-server-mtls
 COPY go.mod .
 # COPY go.sum .
