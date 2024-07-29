@@ -1,9 +1,11 @@
 package utils
 
-import "os"
+import (
+	"os"
+)
 
 func EnvDefault(env, defaultValue string) string {
-	if value := os.Getenv(env); value != "" {
+	if value, ok := os.LookupEnv(env); ok {
 		return value
 	}
 	return defaultValue
