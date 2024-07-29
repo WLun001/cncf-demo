@@ -35,7 +35,6 @@ metadata:
 type: Opaque
 data:
   ca.crt: xxx
-  certificate: xxx
   client.crt: xxx
   client.key: xxx
 ```
@@ -48,7 +47,6 @@ metadata:
 type: Opaque
 data:
   ca.crt: xxx
-  certificate: xxx
   server.crt: xxx
   server.key: xxx
 ```
